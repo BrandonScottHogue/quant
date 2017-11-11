@@ -27,9 +27,9 @@ for idx in indexes:
 
 # Add columns to data  
 now = datetime.utcnow()  
-data['Instrument'] = 'stock'
-data['Date_created'] = now
-data['Date_last_updated'] = now
+data['instrument'] = 'stock'
+data['created_date'] = now
+data['last_update_date'] = now
 colsData = data.columns.tolist()
 
 # Get ETF info from csv cross check with info in data and add only what does
@@ -40,26 +40,27 @@ etf = pd.read_csv(indexDir)
 colsEtf = etf.columns.tolist()
 etf = etf.drop(colsEtf[2:6],axis=1)
 
-etf['Instrument'] = 'ETF'
-etf['Date_created'] = now
-etf['Date_last_updated'] = now
+etf['instrument'] = 'ETF'
+etf['created_date'] = now
+etf['last_update_date'] = now
 
 # Changes Instrument to ETF if symbol appears in ETF info and drops rows in 
 # etf so info is not duplicated 
-data['Instrument'][data['Symbol'].isin(etf.index)] = 'ETF'
+data['instrument'][data['Symbol'].isin(etf.index)] = 'ETF'
 etf.drop(etf.index[~etf['Symbol'].isin(data.index)])
 data = pd.concat([data,etf],ignore_index=True)
 data = data[colsData]
-
+data = data.rename(columns={'Exchange':'exchange','Symbol':'ticker',
+                            'Name':'name', 'IPOyear':'ipo_year',
+                            'Sector':'sector',})
 # Create and fill symbol table 
 # DELETES INFORMATION IN TABLE IF TABLE ALREADY EXISTS
 db_host = 'localhost'
-db_user = ''
-db_pass = ''
-db_name = ''
+db_user = 'serviceuser'
+db_pass = 'longJNUG'
+db_name = 'quantdb'
 uri = ("mysql+mysqldb://" + db_user + ":" + db_pass + 
                        "@" + db_host + "/" + db_name)
 print(uri)
 engine = create_engine(uri)
 data.to_sql(con = engine, name='symbol', if_exists='replace')
-  
