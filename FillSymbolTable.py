@@ -63,4 +63,4 @@ uri = ("mysql+mysqldb://" + db_user + ":" + db_pass +
                        "@" + db_host + "/" + db_name)
 print(uri)
 engine = create_engine(uri)
-data.to_sql(con = engine, name='symbol', if_exists='replace')
+data.to_sql(con = engine, name='symbol', if_exists='replace',index_label='id')
