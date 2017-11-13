@@ -47,8 +47,8 @@ etf['last_update_date'] = now
 
 # Changes Instrument to ETF if symbol appears in ETF info and drops rows in 
 # etf so info is not duplicated 
-data['instrument'][data['Symbol'].isin(etf.index)] = 'ETF'
-etf.drop(etf.index[~etf['Symbol'].isin(data.index)])
+data['instrument'][data['Symbol'].isin(etf['Symbol'])] = 'ETF'
+etf = etf[~etf['Symbol'].isin(data['Symbol'])]
 data = pd.concat([data,etf],ignore_index=True)
 data = data[colsData]
 data = data.rename(columns={'Exchange':'exchange','Symbol':'ticker',
@@ -57,9 +57,9 @@ data = data.rename(columns={'Exchange':'exchange','Symbol':'ticker',
 # Create and fill symbol table 
 # DELETES INFORMATION IN TABLE IF TABLE ALREADY EXISTS
 db_host = 'localhost'
-db_user = 'serviceuser'
-db_pass = 'longJNUG'
-db_name = 'quantdb'
+db_user = 'Cam'
+db_pass = 'password'
+db_name = 'securities_master'
 uri = ("mysql+mysqldb://" + db_user + ":" + db_pass + 
                        "@" + db_host + "/" + db_name)
 print(uri)
