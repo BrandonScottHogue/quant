@@ -8,6 +8,7 @@ import os
 import pandas as pd
 import numpy as np
 from sqlalchemy import create_engine
+import sqlalchemy as sqla
 from datetime import datetime
 
 data = pd.DataFrame()
@@ -63,6 +64,10 @@ uri = ("mysql+mysqldb://" + db_user + ":" + db_pass +
                        "@" + db_host + "/" + db_name)
 print(uri)
 engine = create_engine(uri)
-data.to_sql(con = engine, name='symbol', if_exists='replace',index_label='id')
+data.to_sql(con = engine, name='symbol', if_exists='replace',index_label='id',
+            dtype = {'exchange':sqla.VARCHAR(6),'ticker':sqla.VARCHAR(6),
+                     'name':sqla.VARCHAR(210),'ipo_year':sqla.VARCHAR(4), 
+                     'sector':sqla.VARCHAR(100),'instrument':sqla.VARCHAR(5),
+                     'industry':sqla.VARCHAR(200)})
 with engine.connect() as con:
   con.execute('ALTER TABLE `symbol` ADD PRIMARY KEY (`id`);')
