@@ -57,9 +57,9 @@ data = data.rename(columns={'Exchange':'exchange','Symbol':'ticker',
 # Create and fill symbol table 
 # DELETES INFORMATION IN TABLE IF TABLE ALREADY EXISTS
 db_host = 'localhost'
-db_user = 'Cam'
-db_pass = 'password'
-db_name = 'securities_master'
+db_user = 'serviceuser'
+db_pass = 'longJNUG'
+db_name = 'quantdb'
 uri = ("mysql+mysqldb://" + db_user + ":" + db_pass + 
                        "@" + db_host + "/" + db_name)
 print(uri)

@@ -34,7 +34,7 @@ def updateSql(data):
     else:
         con.commit()
     finally:
-        cur.close()
+        con.close()
 
 db_host = 'localhost'
 db_user = 'serviceuser'
