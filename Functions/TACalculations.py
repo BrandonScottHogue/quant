@@ -3,7 +3,7 @@
 """
 Created on Sun Nov  5 20:15:29 2017
 
-@author: brandon
+@author: brandon and cameron!
 """
 import pandas as pd
 import talib as ta
@@ -15,7 +15,7 @@ def calcBollinger(ticker):#Returns Date, Closed, and 3 Bollinger Bands
                     user='serviceuser', passwd='longJNUG', 
                     db='quantdb')
     
-    sqlstring = "SELECT date,close FROM stock_data_ticker WHERE stock_data_ticker.ticker = \"%s\";" % (ticker)
+    sqlstring = "SELECT * FROM stock_data_ticker WHERE stock_data_ticker.ticker = \"%s\";" % (ticker)
     df_mysql = pd.read_sql(sqlstring,con=mysql_cn)
     mysql_cn.close()    
     
@@ -29,7 +29,7 @@ def calcSMA(ticker):
                     user='serviceuser', passwd='longJNUG', 
                     db='quantdb')
     
-    sqlstring = "SELECT date,close FROM stock_data_ticker WHERE stock_data_ticker.ticker = \"%s\";" % (ticker)
+    sqlstring = "SELECT * FROM stock_data_ticker WHERE stock_data_ticker.ticker = \"%s\";" % (ticker)
     df_mysql = pd.read_sql(sqlstring,con=mysql_cn)
     mysql_cn.close()    
     
@@ -41,7 +41,7 @@ def calcMomentum(ticker, time_period):#Example time period = 6
                     user='serviceuser', passwd='longJNUG', 
                     db='quantdb')
     
-    sqlstring = "SELECT date,close FROM stock_data_ticker WHERE stock_data_ticker.ticker = \"%s\";" % (ticker)
+    sqlstring = "SELECT * FROM stock_data_ticker WHERE stock_data_ticker.ticker = \"%s\";" % (ticker)
     df_mysql = pd.read_sql(sqlstring,con=mysql_cn)
     mysql_cn.close()    
     
@@ -53,7 +53,7 @@ def calcMACD(ticker,fast_period,slow_period,signal_period):#Ex: Fast=12,Slow=26,
                     user='serviceuser', passwd='longJNUG', 
                     db='quantdb')
     
-    sqlstring = "SELECT date,close FROM stock_data_ticker WHERE stock_data_ticker.ticker = \"%s\";" % (ticker)
+    sqlstring = "SELECT * FROM stock_data_ticker WHERE stock_data_ticker.ticker = \"%s\";" % (ticker)
     df_mysql = pd.read_sql(sqlstring,con=mysql_cn)
     mysql_cn.close()    
     
@@ -65,7 +65,7 @@ def calcCCI(ticker, time_period):#Example time period = 14
                     user='serviceuser', passwd='longJNUG', 
                     db='quantdb')
     
-    sqlstring = "SELECT date,high,low,close FROM stock_data_ticker WHERE stock_data_ticker.ticker = \"%s\";" % (ticker)
+    sqlstring = "SELECT * FROM stock_data_ticker WHERE stock_data_ticker.ticker = \"%s\";" % (ticker)
     df_mysql = pd.read_sql(sqlstring,con=mysql_cn)
     mysql_cn.close()    
     
@@ -77,7 +77,7 @@ def calcRSI(ticker,time_period):#Example time period = 14
                     user='serviceuser', passwd='longJNUG', 
                     db='quantdb')
     
-    sqlstring = "SELECT date,close FROM stock_data_ticker WHERE stock_data_ticker.ticker = \"%s\";" % (ticker)
+    sqlstring = "SELECT * FROM stock_data_ticker WHERE stock_data_ticker.ticker = \"%s\";" % (ticker)
     df_mysql = pd.read_sql(sqlstring,con=mysql_cn)
     mysql_cn.close()    
     
@@ -96,5 +96,5 @@ def calcRSI(ticker,time_period):#Example time period = 14
     
 returnedDF = calcRSI('AAPL',14)
 
-print(returnedDF)
+print(returnedDF.RSI)
 
