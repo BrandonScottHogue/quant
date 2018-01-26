@@ -2,7 +2,7 @@
 
 # Change Log
 
-11/13
+11/13/2017
 - Installed TA-Lib
 - Installed TA-Lib python wrapper - See: https://github.com/mrjbq7/ta-lib
 - Added TACalculations.py, which is a collection of technical analysis functions that rely on TA-Lib and it's wrapper.
