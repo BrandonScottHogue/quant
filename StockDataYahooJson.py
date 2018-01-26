@@ -15,9 +15,9 @@ import math
 import sqlalchemy as sqla
 #import time
 db_host = 'localhost'
-db_user = 'Cam'
-db_pass = 'password'
-db_name = 'securities_master'
+db_user = 'serviceuser'
+db_pass = 'longJNUG'
+db_name = 'quantdb'
 uri = ("mysql+mysqldb://" + db_user + ":" + db_pass + 
                        "@" + db_host + "/" + db_name)
 print(uri)
@@ -77,25 +77,25 @@ data = data.rename(columns={'askSize':'ask_size','bidSize':'bid_size',
                             'sharesOutstanding':'shares_outstanding',
                             'trailingAnnualDividendRate':'trailing_dividend_rate',
                             'trailingPE':'trailing_pe'})
-  
+
 data['earnings_date'] = pd.to_datetime(data['earnings_date'],unit='s')
 data['earnings_date_end'] = pd.to_datetime(data['earnings_date_end'],unit='s')
 data['earnings_date_start'] = pd.to_datetime(data['earnings_date_start'],unit='s')
 data['dividend_date'] = pd.to_datetime(data['dividend_date'],unit='s')
 #data = data.replace('na',np.nan)
-data.to_sql(con = engine, name='intraday_data', if_exists='replace',index_label='id',
+data.to_sql(con = engine, name='intraday_data', if_exists='append',index=False,
             dtype = {'ask':sqla.DECIMAL(19,4),'ask_size':sqla.BIGINT,
                      'bid':sqla.DECIMAL(19,4),'bid_size':sqla.BIGINT, 
                      'book_value':sqla.DECIMAL(19,6),
-                     'eps_forwards':sqla.DECIMAL(19,6),
-                     'eps_trailing_year':sqla.DECIMAL(19,6),
-                     'forward_pe':sqla.DECIMAL(19,11),
-                     'open_interest':sqla.BIGINT,
+                     #'eps_forwards':sqla.DECIMAL(19,6),
+                     #'eps_trailing_year':sqla.DECIMAL(19,6),
+                     #'forward_pe':sqla.DECIMAL(19,11),
+                     #'open_interest':sqla.BIGINT,
                      'post_market_price':sqla.DECIMAL(19,6),
                      'price_to_book':sqla.DECIMAL(19,10),
-                     'quote_type':sqla.VARCHAR(8),
+                     #'quote_type':sqla.VARCHAR(8),
                      'price':sqla.DECIMAL(19,6),
                      'current_day_volume':sqla.BIGINT,
-                     'shares_outstanding':sqla.BIGINT,
-                     'trailing_dividend_rate':sqla.DECIMAL(19,6),
-                     'trailing_pe':sqla.DECIMAL(19,10)})
+                     'shares_outstanding':sqla.BIGINT})
+                     #'trailing_dividend_rate':sqla.DECIMAL(19,6),
+                     #'trailing_pe':sqla.DECIMAL(19,10)})

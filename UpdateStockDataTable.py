@@ -34,13 +34,13 @@ endPath = '&interval=1min&apikey=ACM6VY3MGAIDFUDS&datatype=csv'
 #sRng = 0
 idx = 0
 tableLength = 0
-failedSyms = pd.DataFrame()
+failedSyms = []
 for tic in tickers['ticker']:
   print(tic)
   try:
     
     df = requests.get(path + tic + endPath).text
-    time.sleep(.5)
+    time.sleep(1)
     df = pd.read_csv(StringIO(df))
     if len(df) < 3:
       raise ReturnError1
@@ -75,7 +75,9 @@ for tic in tickers['ticker']:
   time.sleep(.5)
 with engine.connect() as con:
   con.execute('ALTER TABLE `minute_data` ADD PRIMARY KEY (`id`);')
-df.to_sql(con=engine, name='failed_symbols',if_exists='replace')
+failedSymbols = pd.DataFrame()
+failedSymbols['symbols'] = failedSyms
+failedSymbols.to_sql(con=engine, name='failed_symbols',if_exists='replace')
 #  df['symbol_id'] = tickers.index[tickers.ticker == tic].tolist()
 #  ticStr = tickers[sRng:r].to_csv(line_terminator='+',index=False,header=False)[:-1]
 #  sRng = r
